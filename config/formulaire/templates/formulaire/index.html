@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Mini Formulaire</title>
+  </head>
+  <body>
+    <h1>Entrez votre nom</h1>
+
+    <form method="POST">
+      {% csrf_token %}
+      <label for="fiche">choix image :</label>
+      <input type="file" id="fiche" name="image" />
+
+      <button type="submit">Envoyer</button>
+    </form>
+  </body>
+</html>
