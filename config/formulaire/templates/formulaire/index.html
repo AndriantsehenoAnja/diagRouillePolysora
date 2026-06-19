@@ -2,17 +2,71 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <title>Mini Formulaire</title>
+    <title>Extraction des Caractéristiques - Maïs</title>
+    <style>
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 20px;
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: center;
+      }
+      th {
+        background-color: #f4f4f4;
+      }
+      .badge-malade {
+        color: red;
+        font-weight: bold;
+      }
+      .badge-sain {
+        color: green;
+        font-weight: bold;
+      }
+    </style>
   </head>
   <body>
-    <h1>Entrez votre nom</h1>
+    <h1>Tableau des Vecteurs de Caractéristiques (Dataset)</h1>
+    <p>
+      Ce tableau résume les données extraites pour l'entraînement du modèle.
+    </p>
 
-    <form method="POST">
-      {% csrf_token %}
-      <label for="fiche">choix image :</label>
-      <input type="file" id="fiche" name="image" />
-
-      <button type="submit">Envoyer</button>
-    </form>
+    <table>
+      <thead>
+        <tr>
+          <th>ID Image</th>
+          <th>Pourcentage de Rouille (%)</th>
+          <th>Rugosité (Sobel)</th>
+          <th>Circularité Moyenne (Mon Variable)</th>
+          <th>Label (Classe)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for image in images_caracteristiques %}
+        <tr>
+          <td><strong>#{{ image.id_image }}</strong></td>
+          <td>{{ image.pct_rouille|stringformat:".2f" }} %</td>
+          <td>{{ image.rugosite|stringformat:".2f" }}</td>
+          <td>{{ image.mon_variable|stringformat:".3f" }}</td>
+          <td>
+            {% if image.label == 1 %}
+            <span class="badge-malade">1 (Malade)</span>
+            {% else %}
+            <span class="badge-sain">0 (Saine)</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="5">
+            Aucune image trouvée ou analysée dans le dossier dataset.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </body>
 </html>
