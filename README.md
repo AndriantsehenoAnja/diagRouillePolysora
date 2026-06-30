@@ -339,3 +339,7 @@ Grâce à cette combinaison de :
 - Bagging ;
 - Vote majoritaire.
 
+```
+python3 -m config.formulaire.tests
+
+``
